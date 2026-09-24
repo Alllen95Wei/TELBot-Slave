@@ -44,14 +44,22 @@ class Chassis:
         self.right_front.disable()
         self.right_rear.disable()
 
-    def drive(self, x_speed: float, z_rotation: float):
-        if not (-1 <= x_speed <= 1) or not (-1 <= z_rotation <= 1):
-            raise ValueError("`x_speed` and `z_rotation` must be between -1 and 1")
-        left_speed = x_speed + z_rotation
-        right_speed = x_speed - z_rotation
+    def drive(self, y_speed: float, z_rotation: float, x_speed: float = 0):
+        if not (-1 <= y_speed <= 1) or not (-1 <= z_rotation <= 1) or not (-1 <= x_speed <= 1):
+            raise ValueError("inputs must be between -1 and 1")
+        lf_speed = y_speed + z_rotation + x_speed
+        lr_speed = y_speed + z_rotation + x_speed
+        rf_speed = y_speed - z_rotation - x_speed
+        rr_speed = y_speed - z_rotation - x_speed
 
-        self.left_front.set_speed(left_speed)
-        self.left_rear.set_speed(left_speed)
-        self.right_front.set_speed(right_speed)
-        self.right_rear.set_speed(right_speed)
-    
+        max_speed = max(abs(lf_speed), abs(lr_speed), abs(rf_speed), abs(rr_speed))
+        if max_speed > 1:
+            lf_speed /= max_speed
+            lr_speed /= max_speed
+            rf_speed /= max_speed
+            rr_speed /= max_speed
+
+        self.left_front.set_speed(lf_speed)
+        self.left_rear.set_speed(lr_speed)
+        self.right_front.set_speed(rf_speed)
+        self.right_rear.set_speed(rr_speed)
