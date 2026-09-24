@@ -7,25 +7,29 @@ class Chassis:
             ChassisConstants.LeftFront.L_EN_PIN, 
             ChassisConstants.LeftFront.R_EN_PIN, 
             ChassisConstants.LeftFront.L_PWM_PIN, 
-            ChassisConstants.LeftFront.R_PWM_PIN
+            ChassisConstants.LeftFront.R_PWM_PIN,
+            ChassisConstants.LeftFront.REVERSED
         )
         self.left_rear = IBT_2(
             ChassisConstants.LeftRear.L_EN_PIN, 
             ChassisConstants.LeftRear.R_EN_PIN, 
             ChassisConstants.LeftRear.L_PWM_PIN, 
-            ChassisConstants.LeftRear.R_PWM_PIN
+            ChassisConstants.LeftRear.R_PWM_PIN,
+            ChassisConstants.LeftRear.REVERSED
         )
         self.right_front = IBT_2(
             ChassisConstants.RightFront.L_EN_PIN, 
             ChassisConstants.RightFront.R_EN_PIN, 
             ChassisConstants.RightFront.L_PWM_PIN, 
-            ChassisConstants.RightFront.R_PWM_PIN
+            ChassisConstants.RightFront.R_PWM_PIN,
+            ChassisConstants.RightFront.REVERSED
         )
         self.right_rear = IBT_2(
             ChassisConstants.RightRear.L_EN_PIN, 
             ChassisConstants.RightRear.R_EN_PIN, 
             ChassisConstants.RightRear.L_PWM_PIN, 
-            ChassisConstants.RightRear.R_PWM_PIN
+            ChassisConstants.RightRear.R_PWM_PIN,
+            ChassisConstants.RightRear.REVERSED
         )
 
     def enable(self):
