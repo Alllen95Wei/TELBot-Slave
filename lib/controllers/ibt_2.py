@@ -31,7 +31,7 @@ class IBT_2:
         if speed < -1 or speed > 1:
             raise ValueError("`speed` must be between -1 and 1")
         duty = int(abs(speed) * _U16_MAX)
-        if (speed * -1 if self.reversed else 1) > 0:
+        if (speed * (-1 if self.reversed else 1)) > 0:
             self.l_pwm_pin.duty_u16(duty)
             self.r_pwm_pin.duty_u16(0)
         else:
