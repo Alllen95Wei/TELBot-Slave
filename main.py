@@ -1,20 +1,52 @@
+import asyncio
+from machine import Pin, UART
+
+from constants import GeneralConstants
 from subsystems import chassis
 
-m_chassis = chassis.Chassis()
+uart = UART(
+    1, 
+    baudrate=GeneralConstants.UART.BAUD_RATE, 
+    tx=Pin(GeneralConstants.UART.TX_PIN), 
+    rx=Pin(GeneralConstants.UART.RX_PIN)
+)
 
-while True:
-    cmd = input("Enter command (w/a/s/d for movement, any other key to stop, q to quit): ")
-    if cmd == 'q':
-        break
-    elif cmd == 'w':
-        m_chassis.drive(1, 0)
-    elif cmd == 's':
-        m_chassis.drive(-1, 0)
-    elif cmd == 'a':
-        m_chassis.drive(0, -1)
-    elif cmd == 'd':
-        m_chassis.drive(0, 1)
-    else:
-        m_chassis.drive(0, 0)
 
-m_chassis.drive(0, 0)
+class Transmitter:
+    def __init__(self, uart: UART, m_chassis: chassis.Chassis):
+        self.uart = uart
+        self.chassis = m_chassis
+
+    async def transmit_sensors(self):
+        while True:
+            self.uart.write(b"\x67\n")
+            print("W:", "67")
+            await asyncio.sleep_ms(500)
+
+    async def receive_commands(self):
+        while True:
+            if self.uart.any():
+                raw_data = self.uart.read(self.uart.any())
+                if raw_data:
+                    print("R:", raw_data.rstrip().decode("utf-8"))
+            await asyncio.sleep_ms(500)
+
+async def main():
+    transmitter = Transmitter(uart, chassis.Chassis())
+    receive_task = asyncio.create_task(transmitter.receive_commands())
+    transmit_task = asyncio.create_task(transmitter.transmit_sensors())
+
+    try:
+        await asyncio.gather(receive_task, transmit_task)
+    finally:
+        receive_task.cancel()
+        transmit_task.cancel()
+        await asyncio.gather(receive_task, transmit_task, return_exceptions=True)
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Interrupted by user")
+        pass
