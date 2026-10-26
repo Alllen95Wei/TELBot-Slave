@@ -1,7 +1,8 @@
 from controllers import IBT_2
 from constants import ChassisConstants
+from subsystems import SubsystemBase
 
-class Chassis:
+class Chassis(SubsystemBase):
     def __init__(self):
         self.left_front = IBT_2(
             ChassisConstants.LeftFront.L_EN_PIN, 
@@ -31,6 +32,8 @@ class Chassis:
             ChassisConstants.RightRear.R_PWM_PIN,
             ChassisConstants.RightRear.REVERSED
         )
+
+        self.motors = {self.left_front, self.left_rear, self.right_front, self.right_rear}
 
     def enable(self):
         self.left_front.enable()
