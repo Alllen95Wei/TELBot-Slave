@@ -3,8 +3,8 @@ __all__ = ["GeneralConstants", "ChassisConstants"]
 class GeneralConstants:
     class UART:
         BAUD_RATE = 115200
-        TX_PIN = 0
-        RX_PIN = 1
+        TX_PIN = 4
+        RX_PIN = 5
 
 class ChassisConstants:
     class LeftFront:
