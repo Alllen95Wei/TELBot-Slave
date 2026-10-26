@@ -6,7 +6,15 @@ from controllers import ControllerBase
 _U16_MAX = const(65535)
 
 class IBT_2(ControllerBase):
-    def __init__(self, l_en_pin: int, r_en_pin: int, l_pwm_pin: int, r_pwm_pin: int, reversed: bool = False, freq: int = 1000):
+    def __init__(
+            self, 
+            l_en_pin: int, 
+            r_en_pin: int, 
+            l_pwm_pin: int, 
+            r_pwm_pin: int, 
+            reversed: bool = False, 
+            freq: int = 1000
+        ):
         self.l_en_pin = Pin(l_en_pin, Pin.OUT)
         self.r_en_pin = Pin(r_en_pin, Pin.OUT)
         self.l_pwm_pin = PWM(Pin(l_pwm_pin), freq=freq)
