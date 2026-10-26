@@ -1,9 +1,11 @@
 from machine import Pin, PWM
 from micropython import const
 
+from controllers import ControllerBase
+
 _U16_MAX = const(65535)
 
-class IBT_2:
+class IBT_2(ControllerBase):
     def __init__(self, l_en_pin: int, r_en_pin: int, l_pwm_pin: int, r_pwm_pin: int, reversed: bool = False, freq: int = 1000):
         self.l_en_pin = Pin(l_en_pin, Pin.OUT)
         self.r_en_pin = Pin(r_en_pin, Pin.OUT)
@@ -37,3 +39,6 @@ class IBT_2:
         else:
             self.l_pwm_pin.duty_u16(0)
             self.r_pwm_pin.duty_u16(duty)
+
+    def stop(self):
+        self.disable()
