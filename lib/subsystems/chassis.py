@@ -50,10 +50,11 @@ class Chassis(SubsystemBase):
     def drive(self, y_speed: float, z_rotation: float, x_speed: float = 0):
         if not (-1 <= y_speed <= 1) or not (-1 <= z_rotation <= 1) or not (-1 <= x_speed <= 1):
             raise ValueError("inputs must be between -1 and 1")
-        lf_speed = y_speed + z_rotation + x_speed
-        lr_speed = y_speed + z_rotation + x_speed
-        rf_speed = y_speed - z_rotation - x_speed
-        rr_speed = y_speed - z_rotation - x_speed
+        # Standard Mecanum Kinematics (assuming rollers in standard O or X layout)
+        lf_speed = y_speed + x_speed + z_rotation
+        lr_speed = y_speed - x_speed + z_rotation
+        rf_speed = y_speed - x_speed - z_rotation
+        rr_speed = y_speed + x_speed - z_rotation
 
         max_speed = max(abs(lf_speed), abs(lr_speed), abs(rf_speed), abs(rr_speed))
         if max_speed > 1:
