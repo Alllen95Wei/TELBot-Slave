@@ -34,3 +34,20 @@ class ChassisConstants:
         L_PWM_PIN = 12
         R_PWM_PIN = 13
         REVERSED = True
+
+class ShooterConstants:
+    class UpperFlywheel:
+        PWM_PIN = 0
+        REVERSED = False
+
+    class LowerFlywheel:
+        PWM_PIN = 0
+        REVERSED = True
+
+    class AngleAdj:
+        PWM_PIN = 0
+        REVERSED = False
+
+    class Spinner:
+        PWM_PIN = 0
+        REVERSED = False
