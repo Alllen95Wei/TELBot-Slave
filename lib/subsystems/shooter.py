@@ -16,15 +16,8 @@ class Shooter(SubsystemBase):
             ShooterConstants.AngleAdj.PWM_PIN,
             ShooterConstants.AngleAdj.REVERSED
         )
-        self.spinner = GeneralPWM(
-            ShooterConstants.Spinner.PWM_PIN,
-            freq=50,
-            use_duty_cycle=False,
-            min_pulse_width=1300,
-            max_pulse_width=1700
-        )
 
-        self.motors = {self.upper_flywheel, self.lower_flywheel, self.angle_adj, self.spinner}
+        self.motors = {self.upper_flywheel, self.lower_flywheel, self.angle_adj}
 
     def start_shoot(self, speed: float):
         speed = min(1, max(-1, speed))
@@ -35,17 +28,7 @@ class Shooter(SubsystemBase):
         self.upper_flywheel.stop()
         self.lower_flywheel.stop()
 
-    def spin_forward(self):
-        self.spinner.set_speed(1)
-    
-    def spin_backward(self):
-        self.spinner.set_speed(-1)
-
-    def stop_spin(self):
-        self.spinner.stop()
-
     def stop_all(self):
         self.upper_flywheel.stop()
         self.lower_flywheel.stop()
-        self.angle_adj.stop()
-        self.spinner.stop()    
+        self.angle_adj.stop()   
