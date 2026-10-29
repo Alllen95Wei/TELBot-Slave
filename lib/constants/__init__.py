@@ -1,4 +1,4 @@
-__all__ = ["GeneralConstants", "ChassisConstants"]
+__all__ = ["GeneralConstants", "ChassisConstants", "ShooterConstants", "ConveyorConstants"]
 
 class GeneralConstants:
     class UART:
@@ -48,6 +48,12 @@ class ShooterConstants:
         PWM_PIN = 0
         REVERSED = False
 
+class ConveyorConstants:
     class Spinner:
         PWM_PIN = 0
         REVERSED = False
+
+    class Trigger:
+        PWM_PIN = 0
+        REVERSED = False
+    
