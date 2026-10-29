@@ -15,7 +15,7 @@ class GeneralPWM(ControllerBase):
             min_pulse_width: int | None = None,
             max_pulse_width: int | None = None,
         ) -> None:
-        self.pin = PWM(Pin(pin, Pin.OUT), freq=freq)
+        self.pin = PWM(Pin(pin), freq=freq)
         self.reversed = reversed
         
         if not use_duty_cycle and (min_pulse_width == None or max_pulse_width == None):
