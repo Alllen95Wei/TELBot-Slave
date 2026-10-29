@@ -1,9 +1,10 @@
 from subsystems.chassis import Chassis
 from subsystems.shooter import Shooter
+from subsystems.conveyor import Conveyor
 
 from controllers import ControllerBase
 
-__all__ = ["SubsystemBase", "Chassis", "Shooter"]
+__all__ = ["SubsystemBase", "Chassis", "Shooter", "Conveyor"]
 
 
 class SubsystemBase:
