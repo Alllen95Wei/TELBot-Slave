@@ -1,6 +1,7 @@
 from controllers import IBT_2
 from constants import ChassisConstants
 from subsystems import SubsystemBase
+from utils import clamp
 
 class Chassis(SubsystemBase):
     def __init__(self):
@@ -48,8 +49,9 @@ class Chassis(SubsystemBase):
         self.right_rear.disable()
 
     def drive(self, y_speed: float, z_rotation: float, x_speed: float = 0):
-        if not (-1 <= y_speed <= 1) or not (-1 <= z_rotation <= 1) or not (-1 <= x_speed <= 1):
-            raise ValueError("inputs must be between -1 and 1")
+        y_speed = clamp(y_speed)
+        z_rotation = clamp(z_rotation)
+        x_speed = clamp(x_speed)
         # Standard Mecanum Kinematics (assuming rollers in standard O or X layout)
         lf_speed = y_speed + x_speed + z_rotation
         lr_speed = y_speed - x_speed + z_rotation

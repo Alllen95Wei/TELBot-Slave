@@ -1,6 +1,7 @@
 from subsystems import SubsystemBase
 from controllers import GeneralPWM, SparkMAX
 from constants import ConveyorConstants
+from utils import clamp
 
 class Conveyor(SubsystemBase):
     def __init__(self) -> None:
@@ -26,7 +27,7 @@ class Conveyor(SubsystemBase):
         self.spinner.stop()
 
     def start_trigger(self, speed: float):
-        speed = min(1, max(-1, speed))
+        speed = clamp(speed)
         self.trigger.set_speed(speed)
 
     def stop_trigger(self):

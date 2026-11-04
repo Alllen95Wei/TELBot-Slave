@@ -1,6 +1,7 @@
 from subsystems import SubsystemBase
 from controllers import GeneralPWM, SparkMAX
 from constants import ShooterConstants
+from utils import clamp
 
 class Shooter(SubsystemBase):
     def __init__(self) -> None:
@@ -20,13 +21,20 @@ class Shooter(SubsystemBase):
         self.motors = {self.upper_flywheel, self.lower_flywheel, self.angle_adj}
 
     def start_shoot(self, speed: float):
-        speed = min(1, max(-1, speed))
+        speed = clamp(speed)
         self.upper_flywheel.set_speed(speed)
         self.lower_flywheel.set_speed(speed)
 
     def stop_shoot(self):
         self.upper_flywheel.stop()
         self.lower_flywheel.stop()
+
+    def set_angle_speed(self, speed: float):
+        speed = clamp(speed)
+        self.angle_adj.set_speed(speed)
+
+    def stop_angle(self):
+        self.angle_adj.stop()
 
     def stop_all(self):
         self.upper_flywheel.stop()
