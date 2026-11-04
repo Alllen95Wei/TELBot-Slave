@@ -161,8 +161,6 @@ class UARTCommunicator:
             elapsed = time.ticks_diff(time.ticks_ms(), self._last_cmd_ticks)
             if elapsed > self.watchdog_timeout_ms and not self._is_stopped:
                 self.stop_all()
-                if self.led:
-                    self.led.off()
             await asyncio.sleep_ms(50)
 
     async def telemetry_task(self) -> None:
@@ -199,4 +197,3 @@ class UARTCommunicator:
             t_wd.cancel()
             t_telem.cancel()
             await asyncio.gather(t_rx, t_wd, t_telem, return_exceptions=True)
-
