@@ -71,6 +71,11 @@ class UARTCommunicator:
             self.shooter.stop_all()
         if self.conveyor is not None:
             self.conveyor.stop_all()
+        if self.led is not None:
+            try:
+                self.led.off()
+            except Exception:
+                pass
         self._is_stopped = True
 
     def dispatch_packet(self, pkt: Packet) -> None:
