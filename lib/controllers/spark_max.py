@@ -3,7 +3,8 @@ from controllers import GeneralPWM
 class SparkMAX(GeneralPWM):
     def __init__(self, pin: int, reversed: bool = False) -> None:
         super().__init__(
-            pin, 
+            pin,
+            None,
             reversed, 
             freq=100, 
             use_duty_cycle=False, 

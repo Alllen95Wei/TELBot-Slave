@@ -14,7 +14,8 @@ class Shooter(SubsystemBase):
             ShooterConstants.LowerFlywheel.REVERSED
         )
         self.angle_adj = GeneralPWM(
-            ShooterConstants.AngleAdj.PWM_PIN,
+            ShooterConstants.AngleAdj.CLK_PIN,
+            ShooterConstants.AngleAdj.EN_PIN,
             ShooterConstants.AngleAdj.REVERSED
         )
 

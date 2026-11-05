@@ -9,6 +9,7 @@ class GeneralPWM(ControllerBase):
     def __init__(
             self, 
             pin: int,
+            en_pin: int | None = None,
             reversed: bool = False,
             freq: int = 1000,
             use_duty_cycle: bool = True,
@@ -16,6 +17,10 @@ class GeneralPWM(ControllerBase):
             max_pulse_width: int | None = None,
         ) -> None:
         self.pin = PWM(Pin(pin), freq=freq)
+        if en_pin:
+            self.en_pin = Pin(en_pin)
+        else:
+            self.en_pin = None
         self.reversed = reversed
         
         if not use_duty_cycle and (min_pulse_width == None or max_pulse_width == None):
@@ -25,6 +30,19 @@ class GeneralPWM(ControllerBase):
             self.use_duty_cycle = use_duty_cycle
             self.zero_pw = (min_pulse_width + max_pulse_width) / 2
             self.range_pw = max_pulse_width - min_pulse_width
+
+    def enable(self):
+        if self.en_pin:
+            self.en_pin.on()
+
+    def disable(self):
+        if self.en_pin:
+            self.en_pin.off()
+
+    def is_enabled(self) -> bool:
+        if self.en_pin:
+            return self.en_pin.value() == 1
+        return False
 
     def set_speed(self, speed: float):
         if speed < -1 or speed > 1:

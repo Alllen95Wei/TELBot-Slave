@@ -50,3 +50,4 @@ class IBT_2(ControllerBase):
 
     def stop(self):
         self.disable()
+        self.set_speed(0)
