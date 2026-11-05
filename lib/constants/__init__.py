@@ -45,7 +45,9 @@ class ShooterConstants:
         REVERSED = True
 
     class AngleAdj:
-        PWM_PIN = 0
+        CLK_PIN = 0
+        CW_PIN = 0
+        EN_PIN = 0
         REVERSED = False
 
 class ConveyorConstants:
