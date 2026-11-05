@@ -22,12 +22,12 @@ class GeneralPWM(ControllerBase):
         else:
             self.en_pin = None
         self.reversed = reversed
+        self.use_duty_cycle = use_duty_cycle
         
         if not use_duty_cycle and (min_pulse_width == None or max_pulse_width == None):
             raise TypeError("`min_pulse_width` and `max_pulse_width` should be set when `use_duty_cycle` is `False`.")
     
         if isinstance(min_pulse_width, int) and isinstance(max_pulse_width, int):
-            self.use_duty_cycle = use_duty_cycle
             self.zero_pw = (min_pulse_width + max_pulse_width) / 2
             self.range_pw = max_pulse_width - min_pulse_width
 
