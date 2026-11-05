@@ -9,7 +9,7 @@ from subsystems import Chassis, Conveyor, Shooter
 # Hardware Initialization
 # ==============================================================================
 uart = UART(
-    1,
+    GeneralConstants.UART.ID,
     baudrate=GeneralConstants.UART.BAUD_RATE,
     tx=Pin(GeneralConstants.UART.TX_PIN),
     rx=Pin(GeneralConstants.UART.RX_PIN),

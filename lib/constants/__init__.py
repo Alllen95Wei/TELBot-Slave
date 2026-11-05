@@ -3,45 +3,46 @@ __all__ = ["GeneralConstants", "ChassisConstants", "ShooterConstants", "Conveyor
 class GeneralConstants:
     class UART:
         BAUD_RATE = 115200
-        TX_PIN = 4
-        RX_PIN = 5
+        ID = 0
+        TX_PIN = 17
+        RX_PIN = 16
 
 class ChassisConstants:
     class LeftFront:
         L_EN_PIN = 0
         R_EN_PIN = 0
-        L_PWM_PIN = 21
-        R_PWM_PIN = 20
+        L_PWM_PIN = 9
+        R_PWM_PIN = 8
         REVERSED = False
 
     class LeftRear:
         L_EN_PIN = 0
         R_EN_PIN = 0
-        L_PWM_PIN = 10
-        R_PWM_PIN = 11
+        L_PWM_PIN = 7
+        R_PWM_PIN = 6
         REVERSED = False
 
     class RightFront:
         L_EN_PIN = 0
         R_EN_PIN = 0
-        L_PWM_PIN = 19
-        R_PWM_PIN = 18
+        L_PWM_PIN = 5
+        R_PWM_PIN = 4
         REVERSED = True
 
     class RightRear:
         L_EN_PIN = 0
         R_EN_PIN = 0
-        L_PWM_PIN = 12
-        R_PWM_PIN = 13
+        L_PWM_PIN = 3
+        R_PWM_PIN = 2
         REVERSED = True
 
 class ShooterConstants:
     class UpperFlywheel:
-        PWM_PIN = 0
+        PWM_PIN = 19
         REVERSED = False
 
     class LowerFlywheel:
-        PWM_PIN = 0
+        PWM_PIN = 18
         REVERSED = True
 
     class AngleAdj:
@@ -52,10 +53,10 @@ class ShooterConstants:
 
 class ConveyorConstants:
     class Spinner:
-        PWM_PIN = 0
+        PWM_PIN = 21
         REVERSED = False
 
     class Trigger:
-        PWM_PIN = 0
+        PWM_PIN = 20
         REVERSED = False
     
