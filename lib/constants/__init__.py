@@ -4,8 +4,8 @@ class GeneralConstants:
     class UART:
         BAUD_RATE = 115200
         ID = 0
-        TX_PIN = 17
-        RX_PIN = 16
+        TX_PIN = 16
+        RX_PIN = 17
 
 class ChassisConstants:
     class LeftFront:
