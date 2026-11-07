@@ -110,16 +110,16 @@ class UARTCommunicator:
             # --- Shooter Subsystem ---
             elif pkt.part == PART_SHOOTER and self.shooter:
                 if len(pkt.payload) == 4:
-                    flywheel, start_angle, reverse_angle = struct.unpack("<h??", pkt.payload)
+                    flywheel, start_angle, reverse_angle = struct.unpack("<hBB", pkt.payload)
                     self.shooter.start_shoot(flywheel / 1000.0)
                     if start_angle:
-                        self.shooter.start_angle(reverse_angle)
+                        self.shooter.start_angle(bool(reverse_angle))
                     else:
                         self.shooter.stop_angle()
                 elif len(pkt.payload) == 3:
-                    _, start_angle, reverse_angle = struct.unpack("<B??", pkt.payload)
+                    _, start_angle, reverse_angle = struct.unpack("<BBB", pkt.payload)
                     if start_angle:
-                        self.shooter.start_angle(reverse_angle)
+                        self.shooter.start_angle(bool(reverse_angle))
                     else:
                         self.shooter.stop_angle()
                 elif len(pkt.payload) == 2:
@@ -131,22 +131,21 @@ class UARTCommunicator:
             # --- Conveyor Subsystem ---
             elif pkt.part == PART_CONVEYOR and self.conveyor:
                 if len(pkt.payload) == 4:
-                    trigger, spinner_run, spinner_rev = struct.unpack("<h??", pkt.payload)
+                    trigger, spinner_run, spinner_rev = struct.unpack("<hBB", pkt.payload)
                     self.conveyor.start_trigger(trigger / 1000.0)
                     if spinner_run:
-                        self.conveyor.start_spinner(reversed=spinner_rev)
+                        self.conveyor.start_spinner(reversed=bool(spinner_rev))
+                    else:
+                        self.conveyor.stop_spinner()
+                elif len(pkt.payload) == 3:
+                    _, spinner_run, spinner_rev = struct.unpack("<BBB", pkt.payload)
+                    if spinner_run:
+                        self.conveyor.start_spinner(reversed=bool(spinner_rev))
                     else:
                         self.conveyor.stop_spinner()
                 elif len(pkt.payload) == 2:
-                    try:
-                        (trigger,) = struct.unpack("<h", pkt.payload)
-                        self.conveyor.start_trigger(trigger / 1000.0)
-                    except Exception:
-                        spinner_run, spinner_rev = struct.unpack("<??", pkt.payload)
-                        if spinner_run:
-                            self.conveyor.start_spinner(reversed=spinner_rev)
-                        else:
-                            self.conveyor.stop_spinner()
+                    (trigger,) = struct.unpack("<h", pkt.payload)
+                    self.conveyor.start_trigger(trigger / 1000.0)
 
     # ==========================================================================
     # Async Background Tasks
