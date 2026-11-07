@@ -1,5 +1,7 @@
 import asyncio
 import time
+from machine import UART
+from subsystems import Chassis, Shooter, Conveyor
 
 try:
     import ustruct as struct
@@ -44,10 +46,10 @@ class UARTCommunicator:
         watchdog_timeout_ms: int = 400,
         led_pin=None,
     ) -> None:
-        self.uart = uart
-        self.chassis = m_chassis
-        self.shooter = m_shooter
-        self.conveyor = m_conveyor
+        self.uart: UART = uart
+        self.chassis: Chassis | None = m_chassis
+        self.shooter: Shooter | None = m_shooter
+        self.conveyor: Conveyor | None = m_conveyor
 
         self.watchdog_timeout_ms = watchdog_timeout_ms
         self.led = led_pin
@@ -108,9 +110,18 @@ class UARTCommunicator:
             # --- Shooter Subsystem ---
             elif pkt.part == PART_SHOOTER and self.shooter:
                 if len(pkt.payload) == 4:
-                    flywheel, angle = struct.unpack("<hh", pkt.payload)
+                    flywheel, start_angle, reverse_angle = struct.unpack("<h??", pkt.payload)
                     self.shooter.start_shoot(flywheel / 1000.0)
-                    self.shooter.set_angle_speed(angle / 1000.0)
+                    if start_angle:
+                        self.shooter.start_angle(reverse_angle)
+                    else:
+                        self.shooter.stop_angle()
+                elif len(pkt.payload) == 3:
+                    _, start_angle, reverse_angle = struct.unpack("<B??", pkt.payload)
+                    if start_angle:
+                        self.shooter.start_angle(reverse_angle)
+                    else:
+                        self.shooter.stop_angle()
                 elif len(pkt.payload) == 2:
                     (flywheel,) = struct.unpack("<h", pkt.payload)
                     self.shooter.start_shoot(flywheel / 1000.0)

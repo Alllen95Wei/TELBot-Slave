@@ -1,5 +1,5 @@
 from subsystems import SubsystemBase
-from controllers import GeneralPWM, SparkMAX
+from controllers import SparkMAX, TB6560
 from constants import ShooterConstants
 from utils import clamp
 
@@ -13,7 +13,8 @@ class Shooter(SubsystemBase):
             ShooterConstants.LowerFlywheel.PWM_PIN,
             ShooterConstants.LowerFlywheel.REVERSED
         )
-        self.angle_adj = GeneralPWM(
+        self.angle_adj = TB6560(
+            ShooterConstants.AngleAdj.CW_PIN,
             ShooterConstants.AngleAdj.CLK_PIN,
             ShooterConstants.AngleAdj.EN_PIN,
             ShooterConstants.AngleAdj.REVERSED
@@ -30,9 +31,8 @@ class Shooter(SubsystemBase):
         self.upper_flywheel.stop()
         self.lower_flywheel.stop()
 
-    def set_angle_speed(self, speed: float):
-        speed = clamp(speed)
-        self.angle_adj.set_speed(speed)
+    def start_angle(self, reverse: bool = False):
+        self.angle_adj.start(reverse)
 
     def stop_angle(self):
         self.angle_adj.stop()
