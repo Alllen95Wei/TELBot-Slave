@@ -52,8 +52,8 @@ CRC8_TABLE = (
 )
 
 
-def calc_crc8(data: bytes | bytearray) -> int:
-    """Calculate CRC-8 checksum over bytes or bytearray."""
+def calc_crc8(data: bytes | bytearray | memoryview) -> int:
+    """Calculate CRC-8 checksum over bytes, bytearray, or memoryview."""
     crc = 0
     for b in data:
         crc = CRC8_TABLE[crc ^ b]
