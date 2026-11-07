@@ -125,6 +125,8 @@ class UARTCommunicator:
                 elif len(pkt.payload) == 2:
                     (flywheel,) = struct.unpack("<h", pkt.payload)
                     self.shooter.start_shoot(flywheel / 1000.0)
+                elif len(pkt.payload) == 1:
+                    self.shooter.disable_angle()
 
             # --- Conveyor Subsystem ---
             elif pkt.part == PART_CONVEYOR and self.conveyor:

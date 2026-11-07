@@ -37,6 +37,9 @@ class Shooter(SubsystemBase):
     def stop_angle(self):
         self.angle_adj.stop()
 
+    def disable_angle(self):
+        self.angle_adj.disable()
+
     def stop_all(self):
         self.upper_flywheel.stop()
         self.lower_flywheel.stop()

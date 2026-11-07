@@ -25,16 +25,17 @@ class TB6560(ControllerBase):
     def enable(self):
         # stop clock before enabling for safety
         self.stop()
-        self.en_pin.on()
+        self.en_pin.off()
 
     def disable(self):
         self.stop()
-        self.en_pin.off()
+        self.en_pin.on()
 
     def is_enabled(self) -> bool:
         return self.en_pin.value() == 0
 
     def start(self, reverse: bool = False):
+        self.enable()
         # xor
         self.cw_pin.value(bool(reverse) != bool(self.reversed))
         self.clk_pin.duty_u16(_U16_HALF)
