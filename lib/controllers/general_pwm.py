@@ -30,6 +30,8 @@ class GeneralPWM(ControllerBase):
         if isinstance(min_pulse_width, int) and isinstance(max_pulse_width, int):
             self.zero_pw = (min_pulse_width + max_pulse_width) / 2
             self.range_pw = max_pulse_width - min_pulse_width
+        
+        self.stop()
 
     def enable(self):
         if self.en_pin:
