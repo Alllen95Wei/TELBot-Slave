@@ -1,20 +1,17 @@
-from subsystems import chassis
+from subsystems import Shooter
 
-m_chassis = chassis.Chassis()
+m_angle_adj = Shooter().angle_adj
+
+cmd = ""
+m_angle_adj.enable()
 
 while True:
-    cmd = input("Enter command (w/a/s/d for movement, any other key to stop, q to quit): ")
-    if cmd == 'q':
-        break
-    elif cmd == 'w':
-        m_chassis.drive(1, 0)
-    elif cmd == 's':
-        m_chassis.drive(-1, 0)
-    elif cmd == 'a':
-        m_chassis.drive(0, -1)
-    elif cmd == 'd':
-        m_chassis.drive(0, 1)
+    cmd = input("CMD: ")
+    if cmd == "w":
+        m_angle_adj.start()
+    elif cmd == "s":
+        m_angle_adj.start(True)
     else:
-        m_chassis.drive(0, 0)
-
-m_chassis.drive(0, 0)
+        m_angle_adj.stop()
+        m_angle_adj.disable()
+        break
