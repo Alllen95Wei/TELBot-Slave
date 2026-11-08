@@ -9,54 +9,54 @@ class GeneralConstants:
 
 class ChassisConstants:
     class LeftFront:
-        L_EN_PIN = 0
-        R_EN_PIN = 0
-        L_PWM_PIN = 9
-        R_PWM_PIN = 8
-        REVERSED = False
-
-    class LeftRear:
-        L_EN_PIN = 0
-        R_EN_PIN = 0
+        L_EN_PIN = None
+        R_EN_PIN = None
         L_PWM_PIN = 7
         R_PWM_PIN = 6
         REVERSED = False
 
-    class RightFront:
-        L_EN_PIN = 0
-        R_EN_PIN = 0
+    class LeftRear:
+        L_EN_PIN = None
+        R_EN_PIN = None
         L_PWM_PIN = 5
         R_PWM_PIN = 4
-        REVERSED = True
+        REVERSED = False
 
-    class RightRear:
-        L_EN_PIN = 0
-        R_EN_PIN = 0
+    class RightFront:
+        L_EN_PIN = None
+        R_EN_PIN = None
         L_PWM_PIN = 3
         R_PWM_PIN = 2
         REVERSED = True
 
-class ShooterConstants:
-    class UpperFlywheel:
-        PWM_PIN = 19
-        REVERSED = False
-
-    class LowerFlywheel:
-        PWM_PIN = 18
+    class RightRear:
+        L_EN_PIN = None
+        R_EN_PIN = None
+        L_PWM_PIN = 1
+        R_PWM_PIN = 0
         REVERSED = True
 
+class ShooterConstants:
+    class UpperFlywheel:
+        PWM_PIN = 15
+        REVERSED = True
+
+    class LowerFlywheel:
+        PWM_PIN = 14
+        REVERSED = False
+
     class AngleAdj:
-        CW_PIN = 10
-        CLK_PIN = 11
+        CW_PIN = 8
+        CLK_PIN = 9
         EN_PIN = 12
         REVERSED = False
 
 class ConveyorConstants:
     class Spinner:
-        PWM_PIN = 21
+        PWM_PIN = 26
         REVERSED = False
 
     class Trigger:
-        PWM_PIN = 20
+        PWM_PIN = 28
         REVERSED = False
     
