@@ -13,7 +13,7 @@ class TB6560(ControllerBase):
             clk_pin: int, 
             en_pin: int, 
             reversed: bool = False, 
-            freq: int = 10
+            freq: int = 200
         ):
         self.cw_pin = Pin(cw_pin, mode=Pin.OUT)
         self.clk_pin = PWM(Pin(clk_pin), freq=freq)
