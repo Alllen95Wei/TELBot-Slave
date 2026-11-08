@@ -32,6 +32,7 @@ class Shooter(SubsystemBase):
         self.lower_flywheel.stop()
 
     def start_angle(self, reverse: bool = False):
+        self.angle_adj.enable()
         self.angle_adj.start(reverse)
 
     def stop_angle(self):
