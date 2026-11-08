@@ -52,11 +52,29 @@ class Chassis(SubsystemBase):
         y_speed = clamp(y_speed)
         z_rotation = clamp(z_rotation)
         x_speed = clamp(x_speed)
-        # Standard Mecanum Kinematics (assuming rollers in standard O or X layout)
-        lf_speed = y_speed + x_speed + z_rotation
-        lr_speed = y_speed - x_speed + z_rotation
-        rf_speed = y_speed - x_speed - z_rotation
-        rr_speed = y_speed + x_speed - z_rotation
+
+        # 1. Coordinate Transformation:
+        # The robot's front is rotated 90 deg clockwise relative to the chassis frame.
+        # Moving forward (+y_robot) requires moving right (+x_chassis).
+        # Strafing right (+x_robot) requires moving backward (-y_chassis).
+        y_c = -x_speed
+        x_c = y_speed
+
+        # 2. Mecanum Kinematics for Standard X-configuration:
+        # Looking top-down, the ground contact force vectors form an "X" pointing to the center:
+        #   LF (1): +45 deg force vector (forward + right)
+        #   RF (2): -45 deg force vector (forward + left)
+        #   LR (3): -45 deg force vector (forward + left)
+        #   RR (4): +45 deg force vector (forward + right)
+        # Kinematics equations:
+        #   lf = y + x + z
+        #   lr = y - x + z
+        #   rf = y - x - z
+        #   rr = y + x - z
+        lf_speed = y_c + x_c + z_rotation
+        lr_speed = y_c - x_c + z_rotation
+        rf_speed = y_c - x_c - z_rotation
+        rr_speed = y_c + x_c - z_rotation
 
         max_speed = max(abs(lf_speed), abs(lr_speed), abs(rf_speed), abs(rr_speed))
         if max_speed > 1:
