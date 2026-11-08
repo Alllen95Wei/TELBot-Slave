@@ -49,7 +49,7 @@ class ShooterConstants:
         CW_PIN = 8
         CLK_PIN = 9
         EN_PIN = 12
-        REVERSED = False
+        REVERSED = True
 
 class ConveyorConstants:
     class Spinner:
