@@ -175,21 +175,20 @@ class UARTCommunicator:
                 self.stop_all()
             await asyncio.sleep_ms(50)
 
-    async def telemetry_task(self) -> None:
-        """Broadcasts sensor telemetry to Host at 20 Hz (every 50 ms)."""
+    async def _tx_loop(self) -> None:
+        """Broadcasts shooter TB6560 step count telemetry to Host at 20 Hz (every 50 ms)."""
         while self._running:
-            # Construct telemetry frame (<HhhB: battery_mv, enc_lf, enc_rf, status_flags)
-            # Future sensor readings (ADC, I2C, encoders) can be hooked in here
-            battery_mv = 12400  # Default nominal 12.4V
-            enc_lf = 0
-            enc_rf = 0
+            angle_steps = self.shooter.get_angle_step() if self.shooter is not None else 0
             status_flags = 0x01 if not self._is_stopped else 0x00
 
-            payload = struct.pack("<HhhB", battery_mv, enc_lf, enc_rf, status_flags)
-            self.send_packet(CMD_TELEMETRY, PART_SENSORS, payload=payload, seq=self._tx_seq)
+            payload = struct.pack("<iB", int(angle_steps), status_flags)
+            self.send_packet(CMD_TELEMETRY, PART_SHOOTER, payload=payload, seq=self._tx_seq)
             self._tx_seq = (self._tx_seq + 1) & 0xFF
 
             await asyncio.sleep_ms(50)
+
+    # Alias for backward compatibility
+    telemetry_task = _tx_loop
 
     async def run(self) -> None:
         """Starts all concurrent tasks and runs until cancelled."""
@@ -198,7 +197,7 @@ class UARTCommunicator:
 
         t_rx = asyncio.create_task(self.rx_task())
         t_wd = asyncio.create_task(self.watchdog_task())
-        t_telem = asyncio.create_task(self.telemetry_task())
+        t_telem = asyncio.create_task(self._tx_loop())
 
         try:
             await asyncio.gather(t_rx, t_wd, t_telem)
