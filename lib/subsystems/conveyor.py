@@ -10,8 +10,8 @@ class Conveyor(SubsystemBase):
             reversed=ConveyorConstants.Spinner.REVERSED,
             freq=50,
             use_duty_cycle=False,
-            min_pulse_width=1300,
-            max_pulse_width=1700
+            min_pulse_width=1433,
+            max_pulse_width=1567
         )
         self.trigger = SparkMAX(
             ConveyorConstants.Trigger.PWM_PIN,
