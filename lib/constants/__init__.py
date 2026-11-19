@@ -58,5 +58,4 @@ class ConveyorConstants:
 
     class Trigger:
         PWM_PIN = 28
-        REVERSED = True
-
+        REVERSED = False

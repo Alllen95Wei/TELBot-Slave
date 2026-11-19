@@ -109,13 +109,18 @@ class UARTCommunicator:
 
             # --- Shooter Subsystem ---
             elif pkt.part == PART_SHOOTER and self.shooter:
-                if len(pkt.payload) == 4:
-                    flywheel, start_angle, reverse_angle = struct.unpack("<hBB", pkt.payload)
-                    self.shooter.start_shoot(flywheel / 1000.0)
+                if len(pkt.payload) == 6:
+                    upper_fw, lower_fw, start_angle, reverse_angle = struct.unpack(
+                        "<hhBB", pkt.payload
+                    )
+                    self.shooter.start_shoot(upper_fw / 1000.0, lower_fw / 1000.0)
                     if start_angle:
                         self.shooter.start_angle(bool(reverse_angle))
                     else:
                         self.shooter.stop_angle()
+                elif len(pkt.payload) == 4:
+                    upper_fw, lower_fw = struct.unpack("<hh", pkt.payload)
+                    self.shooter.start_shoot(upper_fw / 1000.0, lower_fw / 1000.0)
                 elif len(pkt.payload) == 3:
                     _, start_angle, reverse_angle = struct.unpack("<BBB", pkt.payload)
                     if start_angle:

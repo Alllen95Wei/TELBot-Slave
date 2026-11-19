@@ -22,10 +22,11 @@ class Shooter(SubsystemBase):
 
         self.motors = {self.upper_flywheel, self.lower_flywheel, self.angle_adj}
 
-    def start_shoot(self, speed: float):
-        speed = clamp(speed)
-        self.upper_flywheel.set_speed(speed)
-        self.lower_flywheel.set_speed(speed)
+    def start_shoot(self, upper_speed: float, lower_speed: float | None = None):
+        upper_speed = clamp(upper_speed)
+        lower_speed = upper_speed if lower_speed is None else clamp(lower_speed)
+        self.upper_flywheel.set_speed(upper_speed)
+        self.lower_flywheel.set_speed(lower_speed)
 
     def stop_shoot(self):
         self.upper_flywheel.stop()
