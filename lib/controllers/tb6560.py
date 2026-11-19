@@ -86,3 +86,11 @@ class TB6560(ControllerBase):
             return self.step_count
         else:
             return self.step_count + steps
+
+    def reset_step(self):
+        self.step_count = 0
+        if self.is_running:
+            self.last_start_time = ticks_us()
+        else:
+            self.last_start_time = None
+            self.last_end_time = None

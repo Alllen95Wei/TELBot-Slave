@@ -45,6 +45,9 @@ class Shooter(SubsystemBase):
     def get_angle_step(self) -> int:
         return self.angle_adj.get_step()
 
+    def reset_angle_step(self):
+        self.angle_adj.reset_step()
+
     def stop_all(self):
         self.upper_flywheel.stop()
         self.lower_flywheel.stop()
